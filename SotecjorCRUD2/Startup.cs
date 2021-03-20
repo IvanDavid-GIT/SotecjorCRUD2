@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SotecjorCRUD2.Models.Abstract;
+using SotecjorCRUD2.Models.Business;
+using SotecjorCRUD2.Models.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +28,10 @@ namespace SotecjorCRUD2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var conexion = Configuration["ConnectionStrings:conexion_sqlserver"];
+            services.AddDbContext<DbContextCRUD2>(options => options.UseSqlServer(conexion));
+            services.AddScoped<IMaterialBusiness, MaterialBusiness>();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,8 +41,7 @@ namespace SotecjorCRUD2
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
+            else            {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -50,7 +57,7 @@ namespace SotecjorCRUD2
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Materiales}/{action=Index}/{id?}");
             });
         }
     }
