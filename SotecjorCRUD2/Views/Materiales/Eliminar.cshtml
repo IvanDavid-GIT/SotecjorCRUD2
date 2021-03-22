@@ -1,11 +1,12 @@
 ﻿@model SotecjorCRUD2.Models.Entities.Material
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Eliminar";
 }
 
-<h1>Details</h1>
+<h1>Eliminar</h1>
 
+<h3>¿Seguro que desea eliminar?</h3>
 <div>
     <h4>Material</h4>
     <hr />
@@ -35,8 +36,10 @@
             @Html.DisplayFor(model => model.Cantidad)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.MaterialId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    
+    <form asp-action="Eliminar">
+        <input type="hidden" asp-for="MaterialId" />
+        <input type="submit" value="Delete" class="btn btn-danger" onclick=" return confirm ('¿Desea eliminar este registro?')"/> |
+        <a asp-action="Indice">Volver</a>
+    </form>
 </div>

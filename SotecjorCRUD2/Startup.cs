@@ -31,6 +31,7 @@ namespace SotecjorCRUD2
             var conexion = Configuration["ConnectionStrings:conexion_sqlserver"];
             services.AddDbContext<DbContextCRUD2>(options => options.UseSqlServer(conexion));
             services.AddScoped<IMaterialBusiness, MaterialBusiness>();
+            services.AddScoped<ICategoriaMaterialBusiness, CategoriaMaterialBusiness>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
@@ -57,7 +58,8 @@ namespace SotecjorCRUD2
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Materiales}/{action=Index}/{id?}");
+                    pattern: "{controller=Bienvenido}/{action=Indice}/{id?}");
+
             });
         }
     }

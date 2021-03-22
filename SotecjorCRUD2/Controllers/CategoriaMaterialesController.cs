@@ -5,36 +5,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SotecjorCRUD2.Models.Abstract;
 using SotecjorCRUD2.Models.DAL;
 using SotecjorCRUD2.Models.Entities;
+using SotecjorCRUD2.ViewModels;
 
 namespace SotecjorCRUD2.Controllers
 {
     public class CategoriaMaterialesController : Controller
     {
-        private readonly DbContextCRUD2 _context;
+        private readonly ICategoriaMaterialBusiness _categoriaMaterialBusiness;
 
-        public CategoriaMaterialesController(DbContextCRUD2 context)
+        public CategoriaMaterialesController(ICategoriaMaterialBusiness categoriaMaterialBusiness)
         {
-            _context = context;
+            _categoriaMaterialBusiness = categoriaMaterialBusiness;
         }
 
         // GET: CategoriaMateriales
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Indice()
         {
-            return View(await _context.categoriaMateriales.ToListAsync());
+            return View(await _categoriaMaterialBusiness.ObtenerListaCatMateriales());
         }
 
         // GET: CategoriaMateriales/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Detalles(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var categoriaMaterial = await _context.categoriaMateriales
-                .FirstOrDefaultAsync(m => m.CategoriaId == id);
+            var categoriaMaterial = await _categoriaMaterialBusiness.ObtenerCatMaterialPorIdNumero(id.Value);
             if (categoriaMaterial == null)
             {
                 return NotFound();
@@ -44,7 +45,7 @@ namespace SotecjorCRUD2.Controllers
         }
 
         // GET: CategoriaMateriales/Create
-        public IActionResult Create()
+        public IActionResult Crear()
         {
             return View();
         }
@@ -54,26 +55,30 @@ namespace SotecjorCRUD2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoriaId,Nombre")] CategoriaMaterial categoriaMaterial)
+        public async Task<IActionResult> Crear([Bind("CategoriaId,Nombre")] CategoriaMaterial categoriaMaterial)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categoriaMaterial);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var materialTemp = await _categoriaMaterialBusiness.ObtenerCatMaterialPorId(categoriaMaterial.Nombre);
+
+                if (materialTemp == null)
+                {
+                    await _categoriaMaterialBusiness.GuardarCategoria(categoriaMaterial);
+                    return RedirectToAction(nameof(Indice));
+                }
             }
             return View(categoriaMaterial);
         }
 
         // GET: CategoriaMateriales/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var categoriaMaterial = await _context.categoriaMateriales.FindAsync(id);
+            var categoriaMaterial = await _categoriaMaterialBusiness.ObtenerCatMaterialPorIdNumero(id.Value);
             if (categoriaMaterial == null)
             {
                 return NotFound();
@@ -86,7 +91,7 @@ namespace SotecjorCRUD2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoriaId,Nombre")] CategoriaMaterial categoriaMaterial)
+        public async Task<IActionResult> Editar(int id, [Bind("CategoriaId,Nombre")] CategoriaMaterial categoriaMaterial)
         {
             if (id != categoriaMaterial.CategoriaId)
             {
@@ -95,59 +100,31 @@ namespace SotecjorCRUD2.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(categoriaMaterial);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoriaMaterialExists(categoriaMaterial.CategoriaId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _categoriaMaterialBusiness.EditarMaterial(categoriaMaterial);
+                return RedirectToAction(nameof(Indice));
             }
             return View(categoriaMaterial);
         }
 
         // GET: CategoriaMateriales/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Eliminar(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var categoriaMaterial = await _context.categoriaMateriales
-                .FirstOrDefaultAsync(m => m.CategoriaId == id);
+            var categoriaMaterial = await _categoriaMaterialBusiness.ObtenerCatMaterialPorIdNumero(id.Value);
             if (categoriaMaterial == null)
             {
                 return NotFound();
             }
 
-            return View(categoriaMaterial);
+            await _categoriaMaterialBusiness.EliminarMaterial(categoriaMaterial);
+            return RedirectToAction(nameof(Indice));
+            //return View(categoriaMaterial);
         }
 
-        // POST: CategoriaMateriales/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var categoriaMaterial = await _context.categoriaMateriales.FindAsync(id);
-            _context.categoriaMateriales.Remove(categoriaMaterial);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CategoriaMaterialExists(int id)
-        {
-            return _context.categoriaMateriales.Any(e => e.CategoriaId == id);
-        }
+        
     }
 }

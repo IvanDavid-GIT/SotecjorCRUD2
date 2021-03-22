@@ -80,12 +80,5 @@ namespace SotecjorCRUD2.Models.Business
                 throw e;
             }
         }
-
-
-
-
-
-
-
     }
 }

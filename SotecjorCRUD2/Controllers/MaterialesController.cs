@@ -22,15 +22,13 @@ namespace SotecjorCRUD2.Controllers
         }
         
         // GET: Materiales
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Indice()
         {
-
             return View(await _materialBusiness.ObtenerListaMateriales());
-
         }
         
         // GET: Materiales/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Detalles(int? id)
         {
             if (id == null)
             {
@@ -47,7 +45,7 @@ namespace SotecjorCRUD2.Controllers
         }
         
         // GET: Materiales/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Crear()
         {
             ViewData["listaCategorias"] = new SelectList(await _materialBusiness.ObtenerListaCategorias(), "CategoriaId", "Nombre");
             return View();
@@ -58,12 +56,8 @@ namespace SotecjorCRUD2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaterialId,Nombre,CodigoMaterial,CategoriaId,Cantidad")] Material material)
+        public async Task<IActionResult> Crear([Bind("MaterialId,Nombre,CodigoMaterial,CategoriaId,Cantidad")] Material material)
         {
-            
-
-
-
             if (ModelState.IsValid)
             {
                 var materialTemp = await _materialBusiness.ObtenerMaterialPorCod(material.CodigoMaterial);
@@ -71,11 +65,9 @@ namespace SotecjorCRUD2.Controllers
                 if (materialTemp == null)
                 {
                     await _materialBusiness.GuardarMaterial(material);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Indice));
                 }
             }
-
-
             if (material.CategoriaId == 0)
                 ViewData["errorCat"] = "Seleccione una categoria";
 
@@ -89,7 +81,7 @@ namespace SotecjorCRUD2.Controllers
         }
         
         // GET: Materiales/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
             {
@@ -101,6 +93,7 @@ namespace SotecjorCRUD2.Controllers
             {
                 return NotFound();
             }
+            ViewData["listaCategorias"] = new SelectList(await _materialBusiness.ObtenerListaCategorias(), "CategoriaId", "Nombre");
             return View(material);
         }
         
@@ -109,7 +102,7 @@ namespace SotecjorCRUD2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MaterialId,Nombre,CodigoMaterial,CategoriaId,Cantidad")] Material material)
+        public async Task<IActionResult> Editar(int id, [Bind("MaterialId,Nombre,CodigoMaterial,CategoriaId,Cantidad")] Material material)
         {
             if (id != material.MaterialId)
             {
@@ -119,13 +112,14 @@ namespace SotecjorCRUD2.Controllers
             if (ModelState.IsValid)
             {
                 await _materialBusiness.EditarMaterial(material);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Indice));
             }
+            ViewData["listaCategorias"] = new SelectList(await _materialBusiness.ObtenerListaCategorias(), "CategoriaId", "Nombre");
             return View(material);
         }
         
         // GET: Materiales/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Eliminar(int? id)
         {
             if (id == null)
             {
@@ -139,7 +133,7 @@ namespace SotecjorCRUD2.Controllers
             }
 
             await _materialBusiness.EliminarMaterial(material);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Indice));
 
             //return View(material);
         }
