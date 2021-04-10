@@ -18,11 +18,7 @@ namespace SotecjorCRUD2.Models.Entities
         [DisplayName("Código")]
         public int CodigoMaterial { get; set; }
         [Required(ErrorMessage = "La categoria del material es requerida")]
-        [DisplayName("Categoría")]
-        //[ForeignKey("CategoriaId")]
-        public int CategoriaId { get; set; }
-        public virtual CategoriaMaterial Categoria { get; set; }
-
         public int Cantidad { get; set; }
+        public virtual List<MaterialDetalle> MaterialDetalles { get; set; }
     }
 }

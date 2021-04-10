@@ -58,7 +58,7 @@ namespace SotecjorCRUD2
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Bienvenido}/{action=Indice}/{id?}");
+                    pattern: "{controller=Admin}/{action=Dashboard}/{id?}");
 
             });
         }

@@ -11,5 +11,6 @@ namespace SotecjorCRUD2.Models.Entities
         [Key]
         public int CategoriaId { get; set; }
         public string Nombre { get; set; }
+        public virtual List<MaterialDetalle> MaterialDetalles { get; set; }
     }
 }

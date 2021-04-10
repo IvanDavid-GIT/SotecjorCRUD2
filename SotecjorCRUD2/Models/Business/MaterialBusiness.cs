@@ -29,6 +29,13 @@ namespace SotecjorCRUD2.Models.Business
             return await _context.Materiales.FirstOrDefaultAsync(m => m.MaterialId == id);
         }
 
+        public async Task<IEnumerable<MaterialDetalle>> ObtenerMaterialDetallePorId(int id) 
+        {
+            return await _context.MaterialDetalles.Where(x => x.MaterialId == id).ToListAsync();
+        }
+        
+
+
         public async Task<Material> ObtenerMaterialPorCod(int Cod)
         {
             return await _context.Materiales.FirstOrDefaultAsync(m => m.CodigoMaterial == Cod);

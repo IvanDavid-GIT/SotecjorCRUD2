@@ -24,6 +24,8 @@ namespace SotecjorCRUD2.Controllers
         // GET: Materiales
         public async Task<IActionResult> Indice()
         {
+            var detalle = _materialBusiness.ObtenerMaterialDetallePorId(2);
+
             return View(await _materialBusiness.ObtenerListaMateriales());
         }
         
@@ -68,8 +70,7 @@ namespace SotecjorCRUD2.Controllers
                     return RedirectToAction(nameof(Indice));
                 }
             }
-            if (material.CategoriaId == 0)
-                ViewData["errorCat"] = "Seleccione una categoria";
+            
 
 
             ViewData["errorCog"] = "Se encuentra registrado un material con este codigo";

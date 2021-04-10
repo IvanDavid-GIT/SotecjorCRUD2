@@ -15,5 +15,6 @@ namespace SotecjorCRUD2.Models.Abstract
         Task GuardarMaterial(Material material);
         Task EditarMaterial(Material material);
         Task EliminarMaterial(Material material);
+        Task<IEnumerable<MaterialDetalle>> ObtenerMaterialDetallePorId(int id);
     }
 }

@@ -21,6 +21,7 @@ namespace SotecjorCRUD2.Models.DAL
 
         public DbSet<Material> Materiales { get; set; }
         public DbSet<CategoriaMaterial> categoriaMateriales { get; set; }
+        public DbSet<MaterialDetalle> MaterialDetalles { get; set; }
 
 
 

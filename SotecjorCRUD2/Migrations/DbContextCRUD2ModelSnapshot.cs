@@ -43,9 +43,6 @@ namespace SotecjorCRUD2.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoriaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CodigoMaterial")
                         .HasColumnType("int");
 
@@ -55,16 +52,42 @@ namespace SotecjorCRUD2.Migrations
 
                     b.HasKey("MaterialId");
 
-                    b.HasIndex("CategoriaId");
-
                     b.ToTable("Materiales");
                 });
 
-            modelBuilder.Entity("SotecjorCRUD2.Models.Entities.Material", b =>
+            modelBuilder.Entity("SotecjorCRUD2.Models.Entities.MaterialDetalle", b =>
+                {
+                    b.Property<int>("MaterialDetalleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MaterialDetalleId");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.ToTable("MaterialDetalles");
+                });
+
+            modelBuilder.Entity("SotecjorCRUD2.Models.Entities.MaterialDetalle", b =>
                 {
                     b.HasOne("SotecjorCRUD2.Models.Entities.CategoriaMaterial", "Categoria")
-                        .WithMany()
+                        .WithMany("MaterialDetalles")
                         .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SotecjorCRUD2.Models.Entities.Material", "Material")
+                        .WithMany("MaterialDetalles")
+                        .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
