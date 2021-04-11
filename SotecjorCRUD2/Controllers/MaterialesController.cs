@@ -24,7 +24,6 @@ namespace SotecjorCRUD2.Controllers
         // GET: Materiales
         public async Task<IActionResult> Indice()
         {
-            var detalle = _materialBusiness.ObtenerMaterialDetallePorId(2);
 
             return View(await _materialBusiness.ObtenerListaMateriales());
         }

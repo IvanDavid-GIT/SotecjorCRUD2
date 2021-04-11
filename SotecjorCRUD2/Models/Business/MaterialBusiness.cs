@@ -21,7 +21,7 @@ namespace SotecjorCRUD2.Models.Business
 
         public async Task<IEnumerable<Material>> ObtenerListaMateriales() 
         {
-            return await _context.Materiales.Include("Categoria").ToListAsync();
+            return await _context.Materiales.ToListAsync();
         }
 
         public async Task<Material> ObtenerMaterialPorId(int id) 
@@ -31,7 +31,7 @@ namespace SotecjorCRUD2.Models.Business
 
         public async Task<IEnumerable<MaterialDetalle>> ObtenerMaterialDetallePorId(int id) 
         {
-            return await _context.MaterialDetalles.Where(x => x.MaterialId == id).ToListAsync();
+            return await _context.MaterialDetalles.Include(c=> c.CategoriaId).Include(m=> m.MaterialId).Where(x => x.MaterialId == id).ToListAsync();
         }
         
 
