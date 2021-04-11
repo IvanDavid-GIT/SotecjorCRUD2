@@ -64,8 +64,8 @@
                                 @Html.DisplayFor(modelItem => item.Cantidad)
                             </td>
                             <td>
-                                <a class="btn btn-outline-primary btn-lg" asp-action="Editar" asp-route-id="@item.MaterialId"><i class="fas fa-edit"></i>Editar</a> |
-                                <a class="btn btn-outline-warning" asp-action="Detalles" asp-route-id="@item.MaterialId"><i class="fas fa-info"></i>Detalles</a> |
+                                <a class="btn btn-outline-primary btn-lg" asp-action="Editar" asp-route-id="@item.MaterialId"><i class="fas fa-edit"></i>Editar</a>
+                                <a class="btn btn-outline-warning" asp-action="Detalles" asp-route-id="@item.MaterialId"><i class="fas fa-info"></i>Detalles</a>
                                 <a class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Desea eliminar el registro?')" asp-action="Eliminar" asp-route-id="@item.MaterialId"><i class="fas fa-user-slash"></i>Eliminar</a>
                             </td>
                         </tr>

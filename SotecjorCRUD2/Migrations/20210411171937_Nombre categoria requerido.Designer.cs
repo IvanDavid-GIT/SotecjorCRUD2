@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SotecjorCRUD2.Models.DAL;
 
 namespace SotecjorCRUD2.Migrations
 {
     [DbContext(typeof(DbContextCRUD2))]
-    partial class DbContextCRUD2ModelSnapshot : ModelSnapshot
+    [Migration("20210411171937_Nombre categoria requerido")]
+    partial class Nombrecategoriarequerido
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
