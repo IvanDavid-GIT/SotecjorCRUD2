@@ -49,27 +49,44 @@ namespace SotecjorCRUD2.Controllers
         {
             return View();
         }
-
+        
         // POST: CategoriaMateriales/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear([Bind("CategoriaId,Nombre")] CategoriaMaterial categoriaMaterial)
+        [HttpPost]      
+        public async Task<IActionResult> Crear (String Nombre)
         {
-            if (ModelState.IsValid)
+            return Json(new { data = "ok" });
+            /*if (ModelState.IsValid)
             {
+                try
+                {
+                    await _categoriaMaterialBusiness.Crear(categoriaMaterial);
+                    return Json(new { data = "ok" });
+                }
+                catch (Exception)
+                {
+
+                    return Json(new { data = "error" });
+                }
+            }
+
+            return Json(new { data = "error" });
+
+            */
+            /*{
                 var materialTemp = await _categoriaMaterialBusiness.ObtenerCatMaterialPorId(categoriaMaterial.Nombre);
 
                 if (materialTemp == null)
                 {
-                    await _categoriaMaterialBusiness.GuardarCategoria(categoriaMaterial);
+                    await _categoriaMaterialBusiness.CrearCategoria(categoriaMaterial);
                     return RedirectToAction(nameof(Indice));
                 }
             }
             return View(categoriaMaterial);
+            */
         }
-
+        
         // GET: CategoriaMateriales/Edit/5
         public async Task<IActionResult> Editar(int? id)
         {
@@ -124,6 +141,29 @@ namespace SotecjorCRUD2.Controllers
             return RedirectToAction(nameof(Indice));
             //return View(categoriaMaterial);
         }
+
+        /*[HttpPost]
+        public async Task<IActionResult> CrearCategoria(CategoriaMaterial categoriaMaterial)
+        {
+            if (ModelState.IsValid) 
+            {
+                try
+                {
+                    await _categoriaMaterialBusiness.CrearCategoria(categoriaMaterial);
+                    return Json(new { data = "ok" });
+                }
+                catch (Exception)
+                {
+
+                    return Json(new { data = "ERROR" });
+                }
+            }
+
+            return Json(new { data = "ERROR" });
+        }
+        */
+
+
 
         
     }

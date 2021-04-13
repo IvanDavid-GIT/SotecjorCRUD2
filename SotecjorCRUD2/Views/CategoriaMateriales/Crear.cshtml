@@ -2,32 +2,126 @@
 
 @{
     ViewData["Title"] = "Crear";
+
 }
 
-<h1>Crear</h1>
 
-<h4>Categoria Material</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Crear">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-success" />
-            </div>
-        </form>
+@section Styles{
+
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Crear Categoria</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a asp-action="Indice" asp-controller="CategoriaMateriales">Gestionar Categoria Materiales</a></li>
+                        <li class="breadcrumb-item active">Crear Categoria</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
     </div>
-</div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
 
-<div>
-    <a asp-action="Indice">Volver</a>
-</div>
+                    <form asp-action="Crear">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Nombre" class="control-label"></label>
+                            <input asp-for="Nombre" class="form-control" id="nombre" name="nombre" />
+                            <span asp-validation-for="Nombre" class="text-danger error"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Crear" class="btn btn-success" onclick="Crear()" />
+                        </div>
+                    </form>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                    <div>
+                        <a asp-action="Indice">Volver</a>
+                    </div>
+
+                </div>
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+@section Scripts{
+
+    <script>
+    function Crear() {
+        var isValid = true;
+        if (document.getElementById("nombre").value == '') {
+            $('#nombre').siblings('span.error').text('Ingrese el nombre');
+            isValid = false;
+        } else {
+            $('#nombre').siblings('span.error').text('');
+        }
+            if (isValid=true) {
+                Swal.fire({ //Mensaje de confirmar
+                    title: '¿Desea guardar la categoria?',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: `Guardar`,
+                    denyButtonText: `No guardar`,
+                }).then((result) => {
+
+                if (result.isConfirmed) { // si confirmamos
+                    var formData = new FormData(); //se crea el ojeto de tipo formData que va a contener todo lo que vamos a enviar
+                    formData.append("Nombre", document.getElementById("nombre").value);
+                    $.ajax({
+                            type: "POST",
+                            //url: "../Cargos/CrearCargo",
+                            url: '@Url.Action("Crear","CategoriaMateriales")',
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (result) {
+                                //console.log(result.data);
+                                alert(result.data);
+                                if (result.data == "ok") {
+                                    setTimeout(
+                                        function () {
+                                            window.location.href = "@Url.Action("Indice","CategoriaMateriales")";
+                                        }, 4000);
+                                    Swal.fire({
+                                        //position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Categoria guardada',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                } else {
+                                    console.log("ERROR!!")
+                                }
+                            },
+                            error: function (err) {
+                                console.log(err.data)
+                            }
+                        });
+
+                } else if (result.isDenied) {
+                    Swal.fire('Categoria no guardado', '', 'info')
+                }
+            })
+        }
+    }
+    </script>
+
 }

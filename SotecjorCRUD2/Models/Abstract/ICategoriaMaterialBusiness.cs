@@ -11,7 +11,7 @@ namespace SotecjorCRUD2.Models.Abstract
         Task<IEnumerable<CategoriaMaterial>> ObtenerListaCatMateriales();
         Task<CategoriaMaterial> ObtenerCatMaterialPorId(string nom);
         Task<CategoriaMaterial> ObtenerCatMaterialPorIdNumero(int id);
-        Task GuardarCategoria(CategoriaMaterial categoriaMaterial);
+        Task Crear(CategoriaMaterial categoriaMaterial);
         Task EditarMaterial(CategoriaMaterial categoriaMaterial);
         Task EliminarMaterial(CategoriaMaterial categoriaMaterial);
         

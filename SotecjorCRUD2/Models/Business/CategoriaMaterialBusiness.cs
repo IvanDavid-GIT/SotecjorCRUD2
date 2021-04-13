@@ -32,18 +32,10 @@ namespace SotecjorCRUD2.Models.Business
         {
             return await _context.categoriaMateriales.FirstOrDefaultAsync(m => m.CategoriaId == id);
         }
-        public async Task GuardarCategoria(CategoriaMaterial categoriaMaterial)
+        public async Task Crear(CategoriaMaterial categoriaMaterial)
         {
-            try
-            {
-                _context.Add(categoriaMaterial);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
+             _context.Add(categoriaMaterial);
+               await _context.SaveChangesAsync();
         }
 
         public async Task EditarMaterial(CategoriaMaterial categoriaMaterial)

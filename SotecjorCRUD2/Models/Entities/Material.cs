@@ -12,12 +12,11 @@ namespace SotecjorCRUD2.Models.Entities
     {
         [Key]
         public int MaterialId { get; set; }
-        [Required(ErrorMessage ="El nombre es requerido")]
+        [Required]
         public string Nombre { get; set; }
-        [Required(ErrorMessage = "El codigo del material es requerido")]
+        [Required]
         [DisplayName("Código")]
-        public int CodigoMaterial { get; set; }
-        [Required(ErrorMessage = "La categoria del material es requerida")]
+        public int CodigoMaterial { get; set; }        
         public int Cantidad { get; set; }
         public virtual List<MaterialDetalle> MaterialDetalles { get; set; }
     }

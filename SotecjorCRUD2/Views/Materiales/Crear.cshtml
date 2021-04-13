@@ -37,21 +37,21 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="Nombre" class="control-label"></label>
-                            <input asp-for="Nombre" class="form-control" />
-                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                            <input asp-for="Nombre" class="form-control" id="nombre" name="nombre"/>
+                            <span asp-validation-for="Nombre" class="text-danger error" ></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="CodigoMaterial" class="control-label"></label>
-                            <input asp-for="CodigoMaterial" class="form-control" />
-                            <span asp-validation-for="CodigoMaterial" class="text-danger">@ViewData["errorCog"]</span>
+                            <input asp-for="CodigoMaterial" class="form-control" id="codigoMaterial" name="codigoMaterial" />
+                            <span asp-validation-for="CodigoMaterial" class="text-danger error">@ViewData["errorCog"]</span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Cantidad" class="control-label"></label>
-                            <input asp-for="Cantidad" class="form-control" />
-                            <span asp-validation-for="Cantidad" class="text-danger"></span>
+                            <input asp-for="Cantidad" class="form-control" id="cantidad" name="cantidad" />
+                            <span asp-validation-for="Cantidad" class="text-danger error"></span>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Crear" class="btn btn-success" />
+                            <input type="submit" value="Crear" class="btn btn-success" onclick="CrearMaterial()"/>
                         </div>
                     </form>
 
@@ -73,7 +73,54 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script>
+    function CrearMaterial() {
+        var isValid = true;
+        if (document.getElementById("nombre").value == '') {
+            $('#nombre').siblings('span.error').text('Ingrese el nombre');
+            isValid = false;
+        } else {
+            $('#nombre').siblings('span.error').text('');
+        }
 
+        if (document.getElementById("codigoMaterial").value == '') {
+            $('#codigoMaterial').siblings('span.error').text('Ingrese el Codigo del Material');
+            isValid = false;
+        } else {
+            $('#codigoMaterial').siblings('span.error').text('');
+        }
+        if (document.getElementById("cantidad").value == '') {
+            $('#cantidad').siblings('span.error').text('Ingrese la Cantidad del Material');
+            isValid = false;
+        } else {
+            $('#cantidad').siblings('span.error').text('');
+        }
+        if (isValid) {
+
+            Swal.fire({
+                title: '¿Desea guardar el material?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: `Guardar`,
+                denyButtonText: `No guardar`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+
+                    var formData = new FormData();
+                    formData.append("Nombre", document.getElementById("nombre").value);
+                    formData.append("CodigoMaterial", document.getElementById("codigoMaterial").value ==);
+                    formData.append("Cantidad", document.getElementById("cantidad").value == );
+
+
+                   
+                } else if (result.isDenied) {
+                    Swal.fire('Material no guardado', '', 'info')
+                }
+            })
+
+        }
+
+    }
 </script>
 
 }

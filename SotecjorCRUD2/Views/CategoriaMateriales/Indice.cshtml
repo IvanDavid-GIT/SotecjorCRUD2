@@ -4,32 +4,74 @@
     ViewData["Title"] = "Indice";
 }
 
-<h1>Categorias Materiales</h1>
-
-<p>
-    <a class="btn btn-primary" asp-action="Crear"><i class="fas fa-plus"></i>Crear nueva categoria</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                <a class="btn btn-outline-primary btn-lg" asp-action="Editar" asp-route-id="@item.CategoriaId"><i class="fas fa-edit"></i>Editar</a> |
-                <a class="btn btn-outline-warning" asp-action="Detalles" asp-route-id="@item.CategoriaId"><i class="fas fa-info"></i>Detalles</a> |
-                <a class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Desea eliminar el registro?')" asp-action="Eliminar" asp-route-id="@item.CategoriaId"><i class="fas fa-user-slash"></i>Eliminar</a>
-            </td>
-        </tr>
+@section Styles{
+    <link href="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.css" rel="stylesheet" />
 }
-    </tbody>
-</table>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Categoria Materiales</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Admin">Home</a></li>
+                        <li class="breadcrumb-item active">Gestionar Categoria Materiales</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <p>
+                <a class="btn btn-primary" asp-action="Crear" asp-controller="CategoriaMateriales"><i class="fas fa-plus"></i>Crear nueva categoria</a>
+            </p>
+
+            <table class="table" id="tabla">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-primary btn-lg" asp-action="Editar" asp-route-id="@item.CategoriaId"><i class="fas fa-edit"></i>Editar</a> |
+                                <a class="btn btn-outline-warning" asp-action="Detalles" asp-route-id="@item.CategoriaId"><i class="fas fa-info"></i>Detalles</a> |
+                                <a class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Desea eliminar el registro?')" asp-action="Eliminar" asp-route-id="@item.CategoriaId"><i class="fas fa-user-slash"></i>Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.js"></script>
+    <script src="~/js/tabla.js"></script>
+
+}
+
